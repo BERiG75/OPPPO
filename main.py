@@ -1,6 +1,8 @@
-from enum import StrEnum
-from stationery_classes import PencilParams, PenParams, PaperParams, Pencil, Paper, Pen
 import json
+from enum import StrEnum
+
+from stationery_classes import Paper, PaperParams, Pen, Pencil, PencilParams, PenParams
+
 
 class Commands(StrEnum):
     ADD = "ADD"
@@ -9,7 +11,7 @@ class Commands(StrEnum):
 
 
 def read_commands_from_file(path: str):
-    with open(path, "r") as commands_file:
+    with open(path) as commands_file:
         line = commands_file.readline()
         while line:
             print(f"Команда на входе: {line}")
@@ -27,14 +29,19 @@ def is_all_params_in_enum(params: dict, enum) -> bool:
     
     return True
 
-def is_valid_parameters_for_stationery(params: dict, stationery_type: str, stationery_enum: StrEnum):
+def is_valid_parameters_for_stationery(
+        params: dict,
+        stationery_type: str,
+        stationery_enum: StrEnum
+):
     if params["type"] == stationery_type:
         params.pop("type")
         if is_all_params_in_enum(params, stationery_enum):
             print(f"Объект {stationery_type} успешно считан!")
             return True
         else:
-            print(f"Ошибка, неверные параметры для объекта {stationery_type}. Допустимые параметры: {[param.value for param in stationery_enum]}")
+            print(f"""Ошибка, неверные параметры для объекта {stationery_type}.
+                  Допустимые параметры: {[param.value for param in stationery_enum]}""")
             return False
 
 def add_command_handler(parameters):
@@ -81,15 +88,18 @@ def rem_command_handler(parameters: str):
             left_op = getattr(st, left_op)
             right_op = getattr(st, right_op)
             
-            if not (isinstance(left_op, (int, float)) and isinstance(right_op, (int, float))):
-                print(f"ОШИБКА! Операнды должны быть целыми числами. Сейчас сравниваются -> {left_op} и {right_op}")
+            if not (isinstance(left_op, (int, float))
+                    and
+                    isinstance(right_op, (int, float))):
+                print(f"""ОШИБКА! Операнды должны быть целыми числами.
+                      Сейчас сравниваются -> {left_op} и {right_op}""")
                 return
             
             if eval(left_op + condition + right_op):
                 all_stationeries.remove(st)
                 print(f"УДАЛЕНО -> {st}")
             
-        except AttributeError as ae:
+        except AttributeError:
             if eval(str(left_op) + str(condition) + str(right_op)):
                 all_stationeries.remove(st)
                 print(f"УДАЛЕНО -> {st}")
