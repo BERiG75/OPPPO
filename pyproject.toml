@@ -14,3 +14,9 @@ select = [
     "I",
 ]
 ignore = ["SIM118", "SIM110"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+indent-style = "tab"
