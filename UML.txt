@@ -1,0 +1,40 @@
+@startuml
+class Stationery {
+    string phone_number
+    float price
+}
+
+Stationery : _is_valid_str_param_of_child_enum()
+Stationery : _is_positive_int_param_of_child()
+Stationery : _is_positive_float_param_of_child()
+Stationery : _is_valid_phone_number()
+
+
+class Pencil {
+    int lead_density
+    string color
+}
+
+Pencil : _is_valid_initial_parameters()
+
+
+class Pen {
+    float rod_diameter
+    str pen_type
+}
+
+Pen : _is_valid_initial_parameters()
+
+
+class Paper {
+    int weight
+    int height
+    int width
+}
+
+Paper : _is_valid_initial_parameters()
+
+Pencil <|-- Stationery
+Pen <|-- Stationery
+Paper <|-- Stationery
+@enduml

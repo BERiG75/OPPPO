@@ -1,0 +1,9 @@
+PRINT
+ADD {"type": "pencil", "lead_density": 123, "color": "зеленый", "phone_number": "+79333300364", "price": 12.3}
+REM price < 124
+ADD {"type": "pen", "rod_diameter": 123.4, "pen_type": "шариковая", "price": 123.1, "phone_number": "+79333300364"}
+PRINT
+ADD {"type": "paper", "weight": 12, "height": 13, "widtфывh": 14, "phone_number": "+79333300364", "price": 12.3}
+ADD {"type": "pen", "rod_diameter": 12.4, "pen_type": "гелевая", "price": 400.0, "phone_number": "+79333300365"}
+REM price > 100
+PRINT
