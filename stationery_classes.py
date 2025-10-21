@@ -62,13 +62,27 @@ class Stationery:
 		return isinstance(param, float) and param > 0.0
 
 	@staticmethod
-	def _is_valid_phone_number(phone_number: str):
-		result = (
+	def _is_valid_general_params(price: float, phone_number: str):
+		is_valid_phone_number = (
 			isinstance(phone_number, str)
 			and phone_number.startswith("+7")
 			and len(phone_number) == 12
 		)
-		return result
+
+		if not is_valid_phone_number:
+			logging.error("""Номер телефона (phone_number) указан неверно.
+                          Он должен начинаться с +7 и
+                          составлять 12 символов (включая знак +)""")
+			return False
+
+		is_valid_price = isinstance(price, float) and price > 0.0
+
+		if not is_valid_price:
+			logging.error("""Параметр цены (price) задан неверно.
+            Цена должна быть вещественным положительным числом""")
+			return False
+
+		return True
 
 
 class Pencil(Stationery):
@@ -91,6 +105,8 @@ class Pencil(Stationery):
 
 	@classmethod
 	def _is_valid_initial_parameters(cls, parameters: dict) -> bool:
+		super()._is_valid_general_params(parameters.get("price"), parameters.get("phone_number"))
+
 		if not (super()._is_valid_str_param_of_child_enum(parameters.get("color"), PencilColors)):
 			logging.error(f"""Параметр цвета (color) задан неверно.
                           Допустимые значения: {list(PencilColors)}.
@@ -100,17 +116,6 @@ class Pencil(Stationery):
 		if not super()._is_positive_int_param_of_child(parameters.get("lead_density")):
 			logging.error("""Параметр плотности грифеля (lead_density) задан неверно.
             Плотность грифеля (lead_density) должна быть целым положительным числом""")
-			return False
-
-		if not (super()._is_positive_float_param_of_child(parameters.get("price"))):
-			logging.error("""Параметр цены (price) задан неверно.
-            Цена должна быть вещественным положительным числом""")
-			return False
-
-		if not super()._is_valid_phone_number(parameters.get("phone_number")):
-			logging.error("""Номер телефона (phone_number) указан неверно.
-                          Он должен начинаться с +7 и
-                          составлять 12 символов (включая знак +)""")
 			return False
 
 		return True
@@ -139,6 +144,8 @@ class Pen(Stationery):
 
 	@classmethod
 	def _is_valid_initial_parameters(cls, parameters: dict) -> bool:
+		super()._is_valid_general_params(parameters.get("price"), parameters.get("phone_number"))
+
 		if not (
 			super()._is_valid_str_param_of_child_enum(
 				parameters.get("pen_type"), cls.available_pen_types
@@ -152,17 +159,6 @@ class Pen(Stationery):
 		if not super()._is_positive_float_param_of_child(parameters.get("rod_diameter")):
 			logging.error("""Параметр диаметра (rod_diameter) стержня задан неверно.
                           Диаметр должен быть вещественным положительным числом""")
-			return False
-
-		if not (super()._is_positive_float_param_of_child(parameters.get("price"))):
-			logging.error("""Параметр цены (price) задан неверно.
-                          Цена должна быть вещественным положительным числом""")
-			return False
-
-		if not super()._is_valid_phone_number(parameters.get("phone_number")):
-			logging.error("""Номер телефона (phone_number) указан неверно.
-                          Он должен начинаться с +7 и
-                          составлять 12 символов (включая знак +)""")
 			return False
 
 		return True
@@ -190,6 +186,8 @@ class Paper(Stationery):
 
 	@classmethod
 	def _is_valid_initial_parameters(cls, parameters: dict) -> bool:
+		super()._is_valid_general_params(parameters.get("price"), parameters.get("phone_number"))
+
 		if not (super()._is_positive_int_param_of_child(parameters.get("weight"))):
 			logging.error("""Параметр плотности бумаги (weight) указан неверно.
                           Плотность должна быть целым положительным числом""")
@@ -203,17 +201,6 @@ class Paper(Stationery):
 		if not (super()._is_positive_int_param_of_child(parameters.get("width"))):
 			logging.error("""Параметр ширины бумаги (width) указан неверно.
                           Ширина должна быть целым положительным числом""")
-			return False
-
-		if not (super()._is_positive_float_param_of_child(parameters.get("price"))):
-			logging.error("""Параметр цены (price) задан неверно.
-                          Цена должна быть вещественным положительным числом""")
-			return False
-
-		if not super()._is_valid_phone_number(parameters.get("phone_number")):
-			logging.error("""Номер телефона (phone_number) указан неверно.
-                          Он должен начинаться с +7 и
-                          составлять 12 символов (включая знак +)""")
 			return False
 
 		return True
